@@ -7,7 +7,7 @@
  *******************************************************************************/
 #define ITERATIONS_PER_MILLISECOND          762
 #define TRAFFIC_LIGHT_TIME_mSec             5000
-#define REQUEST_BUTTON_PIN                  Pin_3
+#define REQUEST_BUTTON_PIN                  Pin_4
 
 
 /*******************************************************************************

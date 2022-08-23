@@ -53,23 +53,23 @@ void GPIOE_Handler(void){
 
 void configure_request_button(){
     GPIO_Configuration push_btn={
-        PORTE,
+        PORTF,
         REQUEST_BUTTON_PIN,
         LOGIC_LOW,
         Digital_Pin,
         GPIO,
         Input_Pin,
-        Pull_down_resistor
+        Pull_up_resistor
     };
 
     GPIO_init(&push_btn);
-    
-    CLEAR_BIT(GPIO_PORTE_IS_R, REQUEST_BUTTON_PIN); /* pin is edge-sensitive */
-    CLEAR_BIT(GPIO_PORTE_IBE_R,REQUEST_BUTTON_PIN); /* disable both edges detection */
-    SET_BIT(GPIO_PORTE_IEV_R, REQUEST_BUTTON_PIN); /* rising-edge detection */
-    CLEAR_BIT(GPIO_PORTE_ICR_R, REQUEST_BUTTON_PIN); /* clear prior interrupts */
-    SET_BIT(GPIO_PORTE_IM_R, REQUEST_BUTTON_PIN); /* enable arm interrupt (module int) */
-    SET_BIT(NVIC_EN0_R, 20); /* allow NVIC to activate the interrupt coming from PORT E */
+
+    CLEAR_BIT(GPIO_PORTF_IS_R, REQUEST_BUTTON_PIN); /* pin is edge-sensitive */
+    CLEAR_BIT(GPIO_PORTF_IBE_R,REQUEST_BUTTON_PIN); /* disable both edges detection */
+    CLEAR_BIT(GPIO_PORTF_IEV_R, REQUEST_BUTTON_PIN); /* falling-edge detection */
+    CLEAR_BIT(GPIO_PORTF_ICR_R, REQUEST_BUTTON_PIN); /* clear prior interrupts */
+    SET_BIT(GPIO_PORTF_IM_R, REQUEST_BUTTON_PIN); /* enable arm interrupt (module int) */
+    SET_BIT(NVIC_EN0_R, 21); /* allow NVIC to activate the interrupt coming from PORT E */
 }
 
 void switch_traffic_light_state(Traffic_Light_Type type, Traffic_Light_Color color){
