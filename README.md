@@ -10,4 +10,4 @@ otherwise, the vehicles' traffic light switches to red, the pedestrians' traffic
 ## Used components
 - TM4C123GH6PM (Tiva C) microcontroller, based on ARM architecture.
 - 6 LEDs; 3 for each traffic light
-- A push button
+- A push button (or use the builtin switches)
