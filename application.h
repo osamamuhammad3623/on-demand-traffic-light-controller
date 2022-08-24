@@ -7,8 +7,6 @@
  *******************************************************************************/
 #define ITERATIONS_PER_MILLISECOND          762
 #define TRAFFIC_LIGHT_TIME_mSec             5000
-#define REQUEST_BUTTON_PIN                  Pin_4
-
 
 /*******************************************************************************
  *                               Types Declaration                             *
@@ -20,7 +18,6 @@ typedef enum{
 typedef enum{
     VEHICLE_LIGHTS, PEDESTRIAN_LIGHTS
 }Traffic_Light_Type;
-
 
 /*******************************************************************************
  *                              Functions Prototypes                           *
@@ -40,16 +37,16 @@ pin 1: Yellow light,
 pin 2: Green light */
 void configure_pedestrian_traffic_light();
 
-/* A function to configure a pin in port E to work with the push button
+/* A function to configure user-switch 1 in port F, 
     enabling falling-edge interrupt detecting for the pin */
 void configure_request_button();
-
-void busy_wait_ms(uint64_t m_sec);
 
 /* A function to switch/change the traffic light state/color
     it takes 2 parameters:
         1. which traffic light (for vehicles or pedestrians),
         2. what color(state) to set */
 void switch_traffic_light_state(Traffic_Light_Type type, Traffic_Light_Color color);
+
+void update_traffic_lights(void);
 
 #endif /* _APPLICATION_H_ */

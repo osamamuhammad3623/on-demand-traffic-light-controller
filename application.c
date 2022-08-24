@@ -4,11 +4,8 @@
 #include "common_macros.h"
 #include "tm4c123gh6pm.h"
 
-
-void busy_wait_ms(uint64_t m_sec){
-    unsigned long long delay = ITERATIONS_PER_MILLISECOND*m_sec;
-    while(delay--);
-}
+Traffic_Light_Color vehicle_traffic_light_color=YELLOW;
+Traffic_Light_Color prev_vehicle_traffic_light_color=GREEN;
 
 void configure_vehicle_traffic_light(){
     /* configuring Pins 0, 1 and 2 in PORT B */
@@ -42,19 +39,24 @@ void configure_pedestrian_traffic_light(){
     }
 }
 
-void GPIOE_Handler(void){
-    CLEAR_BIT(GPIO_PORTE_ICR_R, REQUEST_BUTTON_PIN); /* clear interrupt flag */
-    /* if the vehicles' traffic light is not red, switch it to red */
-    if (BIT_IS_CLEAR(GPIO_PORTB_DATA_R, 0)){
-        switch_traffic_light_state(VEHICLE_LIGHTS, RED);
-        switch_traffic_light_state(PEDESTRIAN_LIGHTS, GREEN);
+void GPIOF_Handler(void){
+    CLEAR_BIT(GPIO_PORTF_ICR_R, Pin_4); /* clear interrupt flag */
+    if (vehicle_traffic_light_color == RED){
+        return;
     }
+
+    switch_traffic_light_state(VEHICLE_LIGHTS, YELLOW);
+    switch_traffic_light_state(PEDESTRIAN_LIGHTS, YELLOW);
+    vehicle_traffic_light_color = YELLOW;
+    prev_vehicle_traffic_light_color = GREEN;
+    
+    NVIC_ST_CURRENT_R = 0;/* reset systick timer count */
 }
 
 void configure_request_button(){
     GPIO_Configuration push_btn={
         PORTF,
-        REQUEST_BUTTON_PIN,
+        Pin_4,
         LOGIC_LOW,
         Digital_Pin,
         GPIO,
@@ -64,44 +66,56 @@ void configure_request_button(){
 
     GPIO_init(&push_btn);
 
-    CLEAR_BIT(GPIO_PORTF_IS_R, REQUEST_BUTTON_PIN); /* pin is edge-sensitive */
-    CLEAR_BIT(GPIO_PORTF_IBE_R,REQUEST_BUTTON_PIN); /* disable both edges detection */
-    CLEAR_BIT(GPIO_PORTF_IEV_R, REQUEST_BUTTON_PIN); /* falling-edge detection */
-    CLEAR_BIT(GPIO_PORTF_ICR_R, REQUEST_BUTTON_PIN); /* clear prior interrupts */
-    SET_BIT(GPIO_PORTF_IM_R, REQUEST_BUTTON_PIN); /* enable arm interrupt (module int) */
+    CLEAR_BIT(GPIO_PORTF_IS_R, Pin_4); /* pin is edge-sensitive */
+    CLEAR_BIT(GPIO_PORTF_IBE_R,Pin_4); /* disable both edges detection */
+    CLEAR_BIT(GPIO_PORTF_IEV_R, Pin_4); /* falling-edge detection */
+    CLEAR_BIT(GPIO_PORTF_ICR_R, Pin_4); /* clear prior interrupts */
+    SET_BIT(GPIO_PORTF_IM_R, Pin_4); /* enable arm interrupt (module int) */
     SET_BIT(NVIC_EN1_R, 14); /* allow NVIC to activate the interrupt coming from PORT F */
 }
 
 void switch_traffic_light_state(Traffic_Light_Type type, Traffic_Light_Color color){
-    /* clear pins 0:2, then set the target pin */
     if (type == VEHICLE_LIGHTS){
         GPIO_PORTB_DATA_R &= ~(7);
-        switch (color)
-        {
-        case RED:
-            SET_BIT(GPIO_PORTB_DATA_R, RED);
-            break;
-        case YELLOW:
-            SET_BIT(GPIO_PORTB_DATA_R, YELLOW);
-            break;
-        case GREEN:
-            SET_BIT(GPIO_PORTB_DATA_R, GREEN);
-            break;
-        }
+        SET_BIT(GPIO_PORTB_DATA_R, color);
 
     }else if (type == PEDESTRIAN_LIGHTS){
         GPIO_PORTD_DATA_R &= ~(7);
-        switch (color)
-        {
-        case RED:
-            SET_BIT(GPIO_PORTD_DATA_R, RED);
-            break;
-        case YELLOW:
-            SET_BIT(GPIO_PORTD_DATA_R, YELLOW);
-            break;
-        case GREEN:
-            SET_BIT(GPIO_PORTD_DATA_R, GREEN);
-            break;
+        SET_BIT(GPIO_PORTD_DATA_R, color);
+    }
+}
+
+void update_traffic_lights(void){
+    prev_vehicle_traffic_light_color = vehicle_traffic_light_color;
+
+    switch (vehicle_traffic_light_color)
+    {
+        /* if current color is red, switch to yellow */
+    case RED:
+        switch_traffic_light_state(VEHICLE_LIGHTS, YELLOW);
+        switch_traffic_light_state(PEDESTRIAN_LIGHTS, YELLOW);
+        vehicle_traffic_light_color = YELLOW;
+        break;
+    
+        /* if current color is green, switch to yellow */
+    case GREEN:
+        switch_traffic_light_state(VEHICLE_LIGHTS, YELLOW);
+        switch_traffic_light_state(PEDESTRIAN_LIGHTS, YELLOW);
+        vehicle_traffic_light_color = YELLOW;
+        break;
+
+        /* if current color is yellow, then we see its previous color (to go Red or Green) */
+    case YELLOW:
+        if (prev_vehicle_traffic_light_color == RED){
+            switch_traffic_light_state(VEHICLE_LIGHTS, GREEN);
+            switch_traffic_light_state(PEDESTRIAN_LIGHTS, RED);
+            vehicle_traffic_light_color = GREEN;
+
+        }else if (prev_vehicle_traffic_light_color == GREEN){
+            switch_traffic_light_state(VEHICLE_LIGHTS, RED);
+            switch_traffic_light_state(PEDESTRIAN_LIGHTS, GREEN);
+            vehicle_traffic_light_color = RED;
         }
+        break;
     }
 }
