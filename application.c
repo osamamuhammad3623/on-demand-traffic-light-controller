@@ -85,8 +85,7 @@ void switch_traffic_light_state(Traffic_Light_Type type, Traffic_Light_Color col
     }
 }
 
-void update_traffic_lights(void){
-    prev_vehicle_traffic_light_color = vehicle_traffic_light_color;
+void volatile update_traffic_lights(void){
 
     switch (vehicle_traffic_light_color)
     {
@@ -95,6 +94,7 @@ void update_traffic_lights(void){
         switch_traffic_light_state(VEHICLE_LIGHTS, YELLOW);
         switch_traffic_light_state(PEDESTRIAN_LIGHTS, YELLOW);
         vehicle_traffic_light_color = YELLOW;
+        prev_vehicle_traffic_light_color = RED;
         break;
     
         /* if current color is green, switch to yellow */
@@ -102,6 +102,7 @@ void update_traffic_lights(void){
         switch_traffic_light_state(VEHICLE_LIGHTS, YELLOW);
         switch_traffic_light_state(PEDESTRIAN_LIGHTS, YELLOW);
         vehicle_traffic_light_color = YELLOW;
+        prev_vehicle_traffic_light_color = GREEN;
         break;
 
         /* if current color is yellow, then we see its previous color (to go Red or Green) */
@@ -116,6 +117,7 @@ void update_traffic_lights(void){
             switch_traffic_light_state(PEDESTRIAN_LIGHTS, GREEN);
             vehicle_traffic_light_color = RED;
         }
+        prev_vehicle_traffic_light_color = YELLOW;
         break;
     }
 }

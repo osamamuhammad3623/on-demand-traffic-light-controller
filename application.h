@@ -38,7 +38,7 @@ pin 2: Green light */
 void configure_pedestrian_traffic_light();
 
 /* A function to configure user-switch 1 in port F, 
-    enabling falling-edge interrupt detecting for the pin */
+    enabling falling-edge interrupt detecting */
 void configure_request_button();
 
 /* A function to switch/change the traffic light state/color
@@ -47,6 +47,6 @@ void configure_request_button();
         2. what color(state) to set */
 void switch_traffic_light_state(Traffic_Light_Type type, Traffic_Light_Color color);
 
-void update_traffic_lights(void);
+void volatile update_traffic_lights(void);
 
 #endif /* _APPLICATION_H_ */

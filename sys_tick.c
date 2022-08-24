@@ -3,9 +3,9 @@
 #include "sys_tick.h"
 #include "common_macros.h"
 
-static void (*g_CallBackPtr)(void) = 0;
+static void volatile (*g_CallBackPtr)(void) = 0;
 
-void SysTick_init(uint32_t value, void (* callBackFunction )()){
+void SysTick_init(uint32_t value, void volatile (* callBackFunction )()){
 	CLEAR_BIT(NVIC_ST_CTRL_R, 0); /* disable the timer */
 	NVIC_ST_RELOAD_R = value-1; /* set compare value */
 	NVIC_ST_CURRENT_R = 0; /* clear current ticks */
@@ -26,6 +26,6 @@ void SysTick_stop(void){
 void SysTick_Handler(void){
 	if (g_CallBackPtr != 0){
 		(*g_CallBackPtr)();
-		NVIC_ST_CURRENT_R = 0; /* clear the count flag */
+		NVIC_ST_CURRENT_R = 0; // clear the count flag
 	}
 }
