@@ -69,7 +69,7 @@ void configure_request_button(){
     CLEAR_BIT(GPIO_PORTF_IEV_R, REQUEST_BUTTON_PIN); /* falling-edge detection */
     CLEAR_BIT(GPIO_PORTF_ICR_R, REQUEST_BUTTON_PIN); /* clear prior interrupts */
     SET_BIT(GPIO_PORTF_IM_R, REQUEST_BUTTON_PIN); /* enable arm interrupt (module int) */
-    SET_BIT(NVIC_EN0_R, 21); /* allow NVIC to activate the interrupt coming from PORT E */
+    SET_BIT(NVIC_EN1_R, 14); /* allow NVIC to activate the interrupt coming from PORT F */
 }
 
 void switch_traffic_light_state(Traffic_Light_Type type, Traffic_Light_Color color){
