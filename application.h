@@ -47,6 +47,7 @@ void configure_request_button();
         2. what color(state) to set */
 void switch_traffic_light_state(Traffic_Light_Type type, Traffic_Light_Color color);
 
+/* the function is volatile because it's the SysTick handler & makes changes to output pins  */
 void volatile update_traffic_lights(void);
 
 #endif /* _APPLICATION_H_ */
