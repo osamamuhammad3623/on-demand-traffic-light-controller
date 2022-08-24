@@ -61,4 +61,6 @@ Description: Configure & initialize a GPIO pin.
 */
 void GPIO_init(const GPIO_Configuration * config);
 
+void GPIO_writePin(GPIO_Port port, GPIO_Pin pin, uint8_t data);
+
 #endif /* BASIC_GPIO_H_ */

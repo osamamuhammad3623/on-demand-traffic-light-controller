@@ -227,5 +227,60 @@ void GPIO_init(const GPIO_Configuration * config){
     if (config->dir == Output_Pin){
         GPIO_writePin(config->port, config->pin, config->data);
     }
+}
 
+void GPIO_writePin(GPIO_Port port, GPIO_Pin pin, uint8_t data){
+    switch (port)
+    {
+    case PORTA:
+        if (data){
+            SET_BIT(GPIO_PORTA_DATA_R, pin);
+        }else{
+            CLEAR_BIT(GPIO_PORTA_DATA_R, pin);
+        }
+        break;
+    
+    case PORTB:
+        if (data){
+            SET_BIT(GPIO_PORTB_DATA_R, pin);
+        }else{
+            CLEAR_BIT(GPIO_PORTB_DATA_R, pin);
+        }
+        break;
+    
+    case PORTC:
+        if (data){
+            SET_BIT(GPIO_PORTC_DATA_R, pin);
+        }else{
+            CLEAR_BIT(GPIO_PORTC_DATA_R, pin);
+        }
+        break;
+
+    case PORTD:
+        if (data){
+            SET_BIT(GPIO_PORTD_DATA_R, pin);
+        }else{
+            CLEAR_BIT(GPIO_PORTD_DATA_R, pin);
+        }
+        break;
+    
+    case PORTE:
+        if (data){
+            SET_BIT(GPIO_PORTE_DATA_R, pin);
+        }else{
+            CLEAR_BIT(GPIO_PORTE_DATA_R, pin);
+        }
+        break;
+    
+    case PORTF:
+        if (data){
+            SET_BIT(GPIO_PORTF_DATA_R, pin);
+        }else{
+            CLEAR_BIT(GPIO_PORTF_DATA_R, pin);
+        }
+        break;
+    
+    default:
+        break;
+    }
 }
