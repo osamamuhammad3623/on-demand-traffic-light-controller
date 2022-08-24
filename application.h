@@ -20,6 +20,16 @@ typedef enum{
 }Traffic_Light_Type;
 
 /*******************************************************************************
+ *                              Global variables                               *
+ *******************************************************************************/
+/* the current color of the vehicles' traffic light */
+extern Traffic_Light_Color vehicle_traffic_light_color;
+
+/* the previous color of the vehicles' traffic light, will be used to determine
+      whether to go Red or Green */
+extern Traffic_Light_Color prev_vehicle_traffic_light_color;
+
+/*******************************************************************************
  *                              Functions Prototypes                           *
  *******************************************************************************/
 

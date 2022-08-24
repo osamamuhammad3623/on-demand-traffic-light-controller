@@ -71,7 +71,7 @@ void configure_request_button(){
     CLEAR_BIT(GPIO_PORTF_IEV_R, Pin_4); /* falling-edge detection */
     CLEAR_BIT(GPIO_PORTF_ICR_R, Pin_4); /* clear prior interrupts */
     SET_BIT(GPIO_PORTF_IM_R, Pin_4); /* enable arm interrupt (module int) */
-    SET_BIT(NVIC_EN1_R, 14); /* allow NVIC to activate the interrupt coming from PORT F */
+    SET_BIT(NVIC_EN1_R, 14); /* allow NVIC to activate/process the interrupt coming from PORT F */
 }
 
 void switch_traffic_light_state(Traffic_Light_Type type, Traffic_Light_Color color){
@@ -105,7 +105,7 @@ void volatile update_traffic_lights(void){
         prev_vehicle_traffic_light_color = GREEN;
         break;
 
-        /* if current color is yellow, then we see its previous color (to go Red or Green) */
+        /* if current color is yellow, then we see its previous color */
     case YELLOW:
         if (prev_vehicle_traffic_light_color == RED){
             switch_traffic_light_state(VEHICLE_LIGHTS, GREEN);
