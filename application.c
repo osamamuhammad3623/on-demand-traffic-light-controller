@@ -1,6 +1,7 @@
 #include<stdint.h>
 #include "basic_gpio.h"
 #include "application.h"
+#include "led.h"
 #include "common_macros.h"
 #include "tm4c123gh6pm.h"
 
@@ -8,11 +9,12 @@ Traffic_Light_Color vehicle_traffic_light_color=YELLOW;
 Traffic_Light_Color prev_vehicle_traffic_light_color=GREEN;
 
 void configure_vehicle_traffic_light(){
-    /* configuring Pins 0, 1 and 2 in PORT B */
+    /*
+    // configuring Pins 0, 1 and 2 in PORT B
     for (int i=0; i< 3; i++){
         GPIO_Configuration vehicle_traffic_leds={
             PORTB,
-            i, /* pin number */
+            i, // pin number
             LOGIC_LOW,
             Digital_Pin,
             GPIO,
@@ -20,7 +22,12 @@ void configure_vehicle_traffic_light(){
             Disable_internal_resistor
         };
         GPIO_init(&vehicle_traffic_leds);
-    }
+    }*/
+
+    // using the builtin LEDs
+    LED_Configure(RED_LED);
+    LED_Configure(GREEN_LED);
+    LED_Configure(BLUE_LED);
 }
 
 void configure_pedestrian_traffic_light(){
@@ -75,6 +82,7 @@ void configure_request_button(){
 }
 
 void switch_traffic_light_state(Traffic_Light_Type type, Traffic_Light_Color color){
+    /*
     if (type == VEHICLE_LIGHTS){
         GPIO_PORTB_DATA_R &= ~(7);
         SET_BIT(GPIO_PORTB_DATA_R, color);
@@ -82,6 +90,25 @@ void switch_traffic_light_state(Traffic_Light_Type type, Traffic_Light_Color col
     }else if (type == PEDESTRIAN_LIGHTS){
         GPIO_PORTD_DATA_R &= ~(7);
         SET_BIT(GPIO_PORTD_DATA_R, color);
+    }*/
+
+    // using the builtin LEDs
+    if (type == VEHICLE_LIGHTS){
+        LED_Disable();
+        switch (color)
+        {
+        case RED:
+            LED_Enable(RED_LED);
+            break;
+
+        case YELLOW:
+            LED_Enable(BLUE_LED);
+            break;
+
+        case GREEN:
+            LED_Enable(GREEN_LED);
+            break;
+        }
     }
 }
 
