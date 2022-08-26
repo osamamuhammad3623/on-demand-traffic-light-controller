@@ -9,6 +9,7 @@ Traffic_Light_Color vehicle_traffic_light_color=YELLOW;
 Traffic_Light_Color prev_vehicle_traffic_light_color=GREEN;
 
 void configure_vehicle_traffic_light(){
+    
     /*
     // configuring Pins 0, 1 and 2 in PORT B
     for (int i=0; i< 3; i++){
@@ -78,7 +79,7 @@ void configure_request_button(){
     CLEAR_BIT(GPIO_PORTF_IEV_R, Pin_4); /* falling-edge detection */
     CLEAR_BIT(GPIO_PORTF_ICR_R, Pin_4); /* clear prior interrupts */
     SET_BIT(GPIO_PORTF_IM_R, Pin_4); /* enable arm interrupt (module int) */
-    SET_BIT(NVIC_EN1_R, 14); /* allow NVIC to activate/process the interrupt coming from PORT F */
+    SET_BIT(NVIC_EN0_R, 30); /* allow NVIC to activate/process the interrupt coming from PORT F */
 }
 
 void switch_traffic_light_state(Traffic_Light_Type type, Traffic_Light_Color color){
