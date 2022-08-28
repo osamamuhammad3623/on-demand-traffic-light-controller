@@ -48,7 +48,7 @@ void configure_pedestrian_traffic_light(){
 }
 
 void GPIOF_Handler(void){
-    CLEAR_BIT(GPIO_PORTF_ICR_R, Pin_4); /* clear interrupt flag */
+    SET_BIT(GPIO_PORTF_ICR_R, Pin_4); /* clear interrupt flag */
     if (vehicle_traffic_light_color == RED){
         return;
     }
