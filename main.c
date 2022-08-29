@@ -3,7 +3,7 @@
 
 
 int main(void){
-    
+  
     configure_vehicle_traffic_light();
     configure_pedestrian_traffic_light();
     configure_request_button(); /* for pedestrians to request green light to pass */
