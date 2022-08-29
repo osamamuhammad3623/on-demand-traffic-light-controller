@@ -12,8 +12,19 @@ void LED_Configure(LED_Color color)
     CLEAR_BIT(GPIO_PORTF_DATA_R , color);
 }
 
+void LED_Configure_Yellow(){
+    LED_Configure(RED_LED);
+    LED_Configure(GREEN_LED);
+}
+
 void LED_Enable(LED_Color color)
 {
+  if (color == YELLOW_LED){
+    LED_Disable();
+    LED_Enable(RED_LED);
+    LED_Enable(GREEN_LED);
+    return;
+  }
   GPIO_PORTF_DATA_R |= (1<<color);
 }
 

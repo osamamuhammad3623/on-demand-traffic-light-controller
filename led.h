@@ -3,7 +3,7 @@
 
 
 typedef enum {
-    RED_LED=1, BLUE_LED=2, GREEN_LED=3
+    RED_LED=1, BLUE_LED=2, GREEN_LED=3, YELLOW_LED
 }LED_Color;
 
 /*
@@ -14,6 +14,9 @@ typedef enum {
  *      4.clear data register
  * */
 void LED_Configure(LED_Color color);
+
+/* A function to configure yellow color as it's not a builtin LED in Tiva C */
+void LED_Configure_Yellow(void);
 
 /*
  *Description: enable only a specific LED [other LEDs are disabled]

@@ -33,11 +33,7 @@ extern Traffic_Light_Color prev_vehicle_traffic_light_color;
  *                              Functions Prototypes                           *
  *******************************************************************************/
 
-/* A function to configure the pins 0:2 in port B as output pins */
-/* 
-pin 0: Red light, 
-pin 1: Yellow light, 
-pin 2: Green light */
+/* A function to configure the builtin LEDs (representing the vehicles' traffic light) */
 void configure_vehicle_traffic_light();
 
 /* A function to configure the pins 0:2 in port D as output pins */

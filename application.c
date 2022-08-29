@@ -12,7 +12,7 @@ void configure_vehicle_traffic_light(){
     // using the builtin LEDs
     LED_Configure(RED_LED);
     LED_Configure(GREEN_LED);
-    LED_Configure(BLUE_LED);
+    LED_Configure(YELLOW_LED);
 }
 
 void configure_pedestrian_traffic_light(){
@@ -77,13 +77,16 @@ void switch_traffic_light_state(Traffic_Light_Type type, Traffic_Light_Color col
             break;
 
         case YELLOW:
-            LED_Enable(BLUE_LED);
+            LED_Enable(YELLOW_LED);
             break;
 
         case GREEN:
             LED_Enable(GREEN_LED);
             break;
         }
+
+    }else if (type == PEDESTRIAN_LIGHTS){
+        /* port D */
     }
 }
 
