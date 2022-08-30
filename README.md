@@ -12,3 +12,10 @@ otherwise, the vehicles' traffic light switches to red, and the pedestrians' tra
 - 6 LEDs; 3 for each traffic light
 - A push button (or use the builtin switches)
 - IAR Embedded Workbench IDE
+
+## With the help of Datasheet, I got my hands on:
+- Ports & DIO
+- SysTick timer
+- NVIC
+- Interrupts
+- TM4C123 builtin LEDs & switches
