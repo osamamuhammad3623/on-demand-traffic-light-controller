@@ -8,6 +8,10 @@
 #define ITERATIONS_PER_MILLISECOND          762
 #define TRAFFIC_LIGHT_TIME_mSec             5000
 
+#define PEDESTRIANS_TRAFFIC_LIGHT_PORT      PORTD
+#define PEDESTRIANS_RED_LIGHT_PIN           Pin_0
+#define PEDESTRIANS_GREEN_LIGHT_PIN         Pin_4
+
 /*******************************************************************************
  *                               Types Declaration                             *
  *******************************************************************************/
@@ -29,10 +33,6 @@ extern Traffic_Light_Color vehicle_traffic_light_color;
       whether to go Red or Green */
 extern Traffic_Light_Color prev_vehicle_traffic_light_color;
 
-/* Port D pins that represents pedestrians traffic light */
-/* ordered: RED, YELLOW, GREEN */
-extern GPIO_Pin pedestrians_traffic_light_pins[3];
-
 /*******************************************************************************
  *                              Functions Prototypes                           *
  *******************************************************************************/
@@ -40,7 +40,7 @@ extern GPIO_Pin pedestrians_traffic_light_pins[3];
 /* A function to configure the builtin LEDs (representing the vehicles traffic light) */
 void configure_vehicle_traffic_light(void);
 
-/* A function to configure 3 pins in port D as output pins */
+/* A function to configure 2 pins in port D as output pins */
 void configure_pedestrian_traffic_light(void);
 
 /* A function to configure user-switch 1 in port F, 

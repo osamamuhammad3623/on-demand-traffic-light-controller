@@ -8,7 +8,6 @@
 
 Traffic_Light_Color vehicle_traffic_light_color=YELLOW;
 Traffic_Light_Color prev_vehicle_traffic_light_color=GREEN;
-GPIO_Pin pedestrians_traffic_light_pins[3] = {Pin_0, Pin_1, Pin_4};
 
 void configure_vehicle_traffic_light(){
     // using the builtin LEDs
@@ -18,19 +17,21 @@ void configure_vehicle_traffic_light(){
 }
 
 void configure_pedestrian_traffic_light(){
-    /* configuring 3 pins in PORT D */
-    for (int i=0; i<3; i++){
-        GPIO_Configuration pedestrian_traffic_leds={
-            PORTD,
-            pedestrians_traffic_light_pins[i],
-            LOGIC_LOW,
-            Digital_Pin,
-            GPIO,
-            Output_Pin,
-            Disable_internal_resistor
-        };
-        GPIO_init(&pedestrian_traffic_leds);
-    }
+    /* configuring the 2 pins */
+    GPIO_Configuration pedestrian_traffic_leds={
+        PEDESTRIANS_TRAFFIC_LIGHT_PORT,
+        PEDESTRIANS_RED_LIGHT_PIN,
+        LOGIC_LOW,
+        Digital_Pin,
+        GPIO,
+        Output_Pin,
+        Disable_internal_resistor
+    };
+
+    GPIO_init(&pedestrian_traffic_leds);
+    
+    pedestrian_traffic_leds.pin = PEDESTRIANS_GREEN_LIGHT_PIN;
+    GPIO_init(&pedestrian_traffic_leds);
 }
 
 void GPIOF_Handler(void){
@@ -40,7 +41,6 @@ void GPIOF_Handler(void){
     }
 
     switch_traffic_light_state(VEHICLE_LIGHTS, YELLOW);
-    switch_traffic_light_state(PEDESTRIAN_LIGHTS, YELLOW);
     vehicle_traffic_light_color = YELLOW;
     prev_vehicle_traffic_light_color = GREEN;
     
@@ -80,22 +80,16 @@ void switch_traffic_light_state(Traffic_Light_Type type, Traffic_Light_Color col
 
     }else if (type == PEDESTRIAN_LIGHTS){
 
-        for (int i=0; i< 3; i++){
-            GPIO_writePin(PORTD, pedestrians_traffic_light_pins[i], LOGIC_LOW);
-        }
-
+        GPIO_writePin(PEDESTRIANS_TRAFFIC_LIGHT_PORT, PEDESTRIANS_RED_LIGHT_PIN, LOGIC_LOW);
+        GPIO_writePin(PEDESTRIANS_TRAFFIC_LIGHT_PORT, PEDESTRIANS_GREEN_LIGHT_PIN, LOGIC_LOW);
         switch (color)
         {
         case RED:
-            GPIO_writePin(PORTD, pedestrians_traffic_light_pins[0], LOGIC_HIGH);
-            break;
-
-        case YELLOW:
-            GPIO_writePin(PORTD, pedestrians_traffic_light_pins[1], LOGIC_HIGH);
+            GPIO_writePin(PEDESTRIANS_TRAFFIC_LIGHT_PORT, PEDESTRIANS_RED_LIGHT_PIN, LOGIC_HIGH);
             break;
 
         case GREEN:
-            GPIO_writePin(PORTD, pedestrians_traffic_light_pins[2], LOGIC_HIGH);
+            GPIO_writePin(PEDESTRIANS_TRAFFIC_LIGHT_PORT, PEDESTRIANS_GREEN_LIGHT_PIN, LOGIC_HIGH);
             break;
         }
     }
@@ -108,7 +102,7 @@ void volatile update_traffic_lights(void){
         /* if current color is red, switch to yellow */
     case RED:
         switch_traffic_light_state(VEHICLE_LIGHTS, YELLOW);
-        switch_traffic_light_state(PEDESTRIAN_LIGHTS, YELLOW);
+        switch_traffic_light_state(PEDESTRIAN_LIGHTS, RED);
         vehicle_traffic_light_color = YELLOW;
         prev_vehicle_traffic_light_color = RED;
         break;
@@ -116,7 +110,6 @@ void volatile update_traffic_lights(void){
         /* if current color is green, switch to yellow */
     case GREEN:
         switch_traffic_light_state(VEHICLE_LIGHTS, YELLOW);
-        switch_traffic_light_state(PEDESTRIAN_LIGHTS, YELLOW);
         vehicle_traffic_light_color = YELLOW;
         prev_vehicle_traffic_light_color = GREEN;
         break;
