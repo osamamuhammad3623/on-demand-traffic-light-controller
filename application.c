@@ -3,10 +3,12 @@
 #include "application.h"
 #include "led.h"
 #include "common_macros.h"
+#include "switch.h"
 #include "tm4c123gh6pm.h"
 
 Traffic_Light_Color vehicle_traffic_light_color=YELLOW;
 Traffic_Light_Color prev_vehicle_traffic_light_color=GREEN;
+GPIO_Pin pedestrians_traffic_light_pins[3] = {Pin_0, Pin_1, Pin_4};
 
 void configure_vehicle_traffic_light(){
     // using the builtin LEDs
@@ -16,11 +18,11 @@ void configure_vehicle_traffic_light(){
 }
 
 void configure_pedestrian_traffic_light(){
-    /* configuring Pins 0, 1 and 2 in PORT D */
-    for (int i=0; i< 3; i++){
+    /* configuring 3 pins in PORT D */
+    for (int i=0; i<3; i++){
         GPIO_Configuration pedestrian_traffic_leds={
             PORTD,
-            i,
+            pedestrians_traffic_light_pins[i],
             LOGIC_LOW,
             Digital_Pin,
             GPIO,
@@ -46,18 +48,9 @@ void GPIOF_Handler(void){
 }
 
 void configure_request_button(){
-    GPIO_Configuration push_btn={
-        PORTF,
-        Pin_4,
-        LOGIC_LOW,
-        Digital_Pin,
-        GPIO,
-        Input_Pin,
-        Pull_up_resistor
-    };
 
-    GPIO_init(&push_btn);
-
+    Switch_Configure(SW1);
+    /* configure the switch interrupt */
     CLEAR_BIT(GPIO_PORTF_IS_R, Pin_4); /* pin is edge-sensitive */
     CLEAR_BIT(GPIO_PORTF_IBE_R,Pin_4); /* disable both edges detection */
     CLEAR_BIT(GPIO_PORTF_IEV_R, Pin_4); /* falling-edge detection */
@@ -67,7 +60,7 @@ void configure_request_button(){
 }
 
 void switch_traffic_light_state(Traffic_Light_Type type, Traffic_Light_Color color){
-    // using the builtin LEDs
+    // using the builtin LEDs for vehicles traffic light
     if (type == VEHICLE_LIGHTS){
         LED_Disable();
         switch (color)
@@ -86,7 +79,25 @@ void switch_traffic_light_state(Traffic_Light_Type type, Traffic_Light_Color col
         }
 
     }else if (type == PEDESTRIAN_LIGHTS){
-        /* port D */
+
+        for (int i=0; i< 3; i++){
+            GPIO_writePin(PORTD, pedestrians_traffic_light_pins[i], LOGIC_LOW);
+        }
+
+        switch (color)
+        {
+        case RED:
+            GPIO_writePin(PORTD, pedestrians_traffic_light_pins[0], LOGIC_HIGH);
+            break;
+
+        case YELLOW:
+            GPIO_writePin(PORTD, pedestrians_traffic_light_pins[1], LOGIC_HIGH);
+            break;
+
+        case GREEN:
+            GPIO_writePin(PORTD, pedestrians_traffic_light_pins[2], LOGIC_HIGH);
+            break;
+        }
     }
 }
 

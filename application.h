@@ -22,30 +22,30 @@ typedef enum{
 /*******************************************************************************
  *                              Global variables                               *
  *******************************************************************************/
-/* the current color of the vehicles' traffic light */
+/* the current color of the vehicles traffic light */
 extern Traffic_Light_Color vehicle_traffic_light_color;
 
-/* the previous color of the vehicles' traffic light, will be used to determine
+/* the previous color of the vehicles traffic light, will be used to determine
       whether to go Red or Green */
 extern Traffic_Light_Color prev_vehicle_traffic_light_color;
+
+/* Port D pins that represents pedestrians traffic light */
+/* ordered: RED, YELLOW, GREEN */
+extern GPIO_Pin pedestrians_traffic_light_pins[3];
 
 /*******************************************************************************
  *                              Functions Prototypes                           *
  *******************************************************************************/
 
-/* A function to configure the builtin LEDs (representing the vehicles' traffic light) */
-void configure_vehicle_traffic_light();
+/* A function to configure the builtin LEDs (representing the vehicles traffic light) */
+void configure_vehicle_traffic_light(void);
 
-/* A function to configure the pins 0:2 in port D as output pins */
-/* 
-pin 0: Red light, 
-pin 1: Yellow light, 
-pin 2: Green light */
-void configure_pedestrian_traffic_light();
+/* A function to configure 3 pins in port D as output pins */
+void configure_pedestrian_traffic_light(void);
 
 /* A function to configure user-switch 1 in port F, 
     enabling falling-edge interrupt detecting */
-void configure_request_button();
+void configure_request_button(void);
 
 /* A function to switch/change the traffic light state/color
     it takes 2 parameters:
