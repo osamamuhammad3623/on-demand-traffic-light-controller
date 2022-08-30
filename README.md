@@ -19,3 +19,7 @@ otherwise, the vehicles traffic light immediately switches to yellow then red, a
 - NVIC
 - Interrupts
 - TM4C123 builtin LEDs & switches
+
+## Project architecture
+- The project follows the Layered Architecture model.
+- application layer communicates with modules i.e. DIO, SysTick timer, and these modules access the hardware directly.
