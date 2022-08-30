@@ -40,12 +40,17 @@ extern Traffic_Light_Color prev_vehicle_traffic_light_color;
 /* A function to configure the builtin LEDs (representing the vehicles traffic light) */
 void configure_vehicle_traffic_light(void);
 
-/* A function to configure 2 pins in port D as output pins */
+/* A function to configure 2 pins in a configurable port as output pins */
 void configure_pedestrian_traffic_light(void);
 
 /* A function to configure user-switch 1 in port F, 
     enabling falling-edge interrupt detecting */
 void configure_request_button(void);
+
+/* A function to configure SysTick timer with interrupts */
+void configure_application_timer(void);
+
+void enable_application_timer(void);
 
 /* A function to switch/change the traffic light state/color
     it takes 2 parameters:

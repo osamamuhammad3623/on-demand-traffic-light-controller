@@ -2,6 +2,7 @@
 #include "basic_gpio.h"
 #include "application.h"
 #include "led.h"
+#include "sys_tick.h"
 #include "common_macros.h"
 #include "switch.h"
 #include "tm4c123gh6pm.h"
@@ -57,6 +58,14 @@ void configure_request_button(){
     CLEAR_BIT(GPIO_PORTF_ICR_R, Pin_4); /* clear prior interrupts */
     SET_BIT(GPIO_PORTF_IM_R, Pin_4); /* enable arm interrupt (module int) */
     SET_BIT(NVIC_EN0_R, 30); /* allow NVIC to activate/process the interrupt coming from PORT F */
+}
+
+void configure_application_timer(void){
+    SysTick_init((ITERATIONS_PER_MILLISECOND)*(TRAFFIC_LIGHT_TIME_mSec), update_traffic_lights);
+}
+
+void enable_application_timer(void){
+    SysTick_start();
 }
 
 void switch_traffic_light_state(Traffic_Light_Type type, Traffic_Light_Color color){
