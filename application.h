@@ -5,7 +5,7 @@
 /*******************************************************************************
  *                                Definitions                                  *
  *******************************************************************************/
-#define TRAFFIC_LIGHT_TIME_Sec              10
+#define TRAFFIC_LIGHT_TIME_Sec              7
 
 #define PEDESTRIANS_TRAFFIC_LIGHT_PORT      PORTD
 #define PEDESTRIANS_RED_LIGHT_PIN           Pin_0
