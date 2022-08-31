@@ -10,7 +10,7 @@
 
 #define PEDESTRIANS_TRAFFIC_LIGHT_PORT      PORTD
 #define PEDESTRIANS_RED_LIGHT_PIN           Pin_0
-#define PEDESTRIANS_GREEN_LIGHT_PIN         Pin_4
+#define PEDESTRIANS_GREEN_LIGHT_PIN         Pin_2
 
 /*******************************************************************************
  *                               Types Declaration                             *
