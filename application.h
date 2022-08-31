@@ -5,8 +5,7 @@
 /*******************************************************************************
  *                                Definitions                                  *
  *******************************************************************************/
-#define ITERATIONS_PER_MILLISECOND          762
-#define TRAFFIC_LIGHT_TIME_mSec             5000
+#define TRAFFIC_LIGHT_TIME_Sec              10
 
 #define PEDESTRIANS_TRAFFIC_LIGHT_PORT      PORTD
 #define PEDESTRIANS_RED_LIGHT_PIN           Pin_0

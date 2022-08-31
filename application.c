@@ -9,6 +9,7 @@
 
 Traffic_Light_Color vehicle_traffic_light_color=YELLOW;
 Traffic_Light_Color prev_vehicle_traffic_light_color=GREEN;
+uint8_t systick_int_cnt=1;
 
 void configure_vehicle_traffic_light(){
     // using the builtin LEDs
@@ -26,7 +27,7 @@ void configure_pedestrian_traffic_light(){
         Digital_Pin,
         GPIO,
         Output_Pin,
-        Disable_internal_resistor
+        Pull_up_resistor
     };
 
     GPIO_init(&pedestrian_traffic_leds);
@@ -61,11 +62,13 @@ void configure_request_button(){
 }
 
 void configure_application_timer(void){
-    SysTick_init((ITERATIONS_PER_MILLISECOND)*(TRAFFIC_LIGHT_TIME_mSec), update_traffic_lights);
+    /* configure the systick timer to interrupt every second */
+    SysTick_init(16e6, update_traffic_lights);
 }
 
 void enable_application_timer(void){
     SysTick_start();
+    update_traffic_lights();
 }
 
 void switch_traffic_light_state(Traffic_Light_Type type, Traffic_Light_Color color){
@@ -105,6 +108,13 @@ void switch_traffic_light_state(Traffic_Light_Type type, Traffic_Light_Color col
 }
 
 void volatile update_traffic_lights(void){
+    /* check if the configured traffic light time has elapsed */
+    systick_int_cnt++;
+    if (systick_int_cnt != TRAFFIC_LIGHT_TIME_Sec){
+        return;
+    }
+    systick_int_cnt=0;
+
 
     switch (vehicle_traffic_light_color)
     {
