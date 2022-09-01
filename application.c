@@ -9,7 +9,6 @@
 
 Traffic_Light_Color vehicle_traffic_light_color=YELLOW;
 Traffic_Light_Color prev_vehicle_traffic_light_color=GREEN;
-uint8_t systick_int_cnt= (TRAFFIC_LIGHT_TIME_Sec)-1;
 
 void configure_vehicle_traffic_light(){
     // using the builtin LEDs
@@ -108,6 +107,8 @@ void switch_traffic_light_state(Traffic_Light_Type type, Traffic_Light_Color col
 }
 
 void volatile update_traffic_lights(void){
+    static uint8_t systick_int_cnt= (TRAFFIC_LIGHT_TIME_Sec)-1;
+
     /* check if the configured traffic light time has elapsed */
     systick_int_cnt++;
     if (systick_int_cnt != TRAFFIC_LIGHT_TIME_Sec){
