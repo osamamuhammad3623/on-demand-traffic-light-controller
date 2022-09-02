@@ -31,5 +31,5 @@ otherwise, the vehicles traffic light immediately switches to yellow then red, a
 ## YouTube preview
 - Link: https://youtu.be/jsdOrRgtQVE
 - Tests on video:
-1. press on the switch to request the green light to pass, while vehicles traffic light is red   --> nothing happens
-2. press on the switch to request the green light to pass, while vehicles traffic light is green --> vehicles traffic light immediately switches to yellow, then red, and pedestrians traffic light switches to green allowing pedestrains to pass
+1. press on the switch while vehicles traffic light is red -- expected result --> nothing happens
+2. press on the switch while vehicles traffic light is green -- expected result --> vehicles traffic light immediately switches to yellow, then red, and pedestrians traffic light switches to green allowing pedestrains to pass
