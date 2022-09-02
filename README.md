@@ -9,9 +9,9 @@ otherwise, the vehicles traffic light immediately switches to yellow then red, a
 
 ## Used components & tools
 - TM4C123GH6PM (Tiva C) microcontroller, based on ARM architecture.
-- 5 LEDs; (3 vehicles traffic light LEDs, 2 pedestrians traffic light LEDs)
-- A push button (or use the builtin switches)
-- IAR Embedded Workbench IDE for debugging
+- 5 LEDs; (3 built-in LEDs for vehicles traffic light, 2 pedestrians traffic light LEDs)
+- A push button (I used the built-in switch 1)
+- IAR Embedded Workbench & Keil IDEs for debugging & simulation.
 
 ## With the help of Datasheet, I got my hands on:
 - Ports & DIO
@@ -22,4 +22,6 @@ otherwise, the vehicles traffic light immediately switches to yellow then red, a
 
 ## Project architecture
 - The project follows the Layered Architecture model.
-- application layer communicates with modules i.e. DIO, SysTick timer, and these modules access the hardware directly.
+1. Main function has the superloop, and calls the application APIs.
+2. Application APIs uses the modules drivers.
+3. Modules drivers deal with the hardware directly.
