@@ -3,6 +3,8 @@
 ## Application description
 - 2 traffic lights are connected to the microcontroller.
 - One for vehicles (red, yellow & green), the other is for pedestrians (red & green).
+- When vehicles traffic light is Red, pedestrians traffic light is Green.
+- When vehicles traffic light is Green/Yellow, pedestrians traffic light is Red.
 - Pedestrians can use a push button to request green light to pass (in case the vehicles traffic light is yellow or green)
 - If a pedestrian requests to pass, and the vehicles traffic light is red, nothing happens,  
 otherwise, the vehicles traffic light immediately switches to yellow then red, and the pedestrians traffic light switches to green.
@@ -25,3 +27,5 @@ otherwise, the vehicles traffic light immediately switches to yellow then red, a
 1. Main function has the superloop, and calls the application APIs.
 2. Application APIs uses the modules drivers.
 3. Modules drivers deal with the hardware directly.
+
+- YouTube preview: https://youtu.be/jsdOrRgtQVE
