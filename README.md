@@ -28,4 +28,8 @@ otherwise, the vehicles traffic light immediately switches to yellow then red, a
 2. Application APIs uses the modules drivers.
 3. Modules drivers deal with the hardware directly.
 
-- YouTube preview: https://youtu.be/jsdOrRgtQVE
+## YouTube preview
+- Link: https://youtu.be/jsdOrRgtQVE
+- Tests on video:
+1. press on the switch to request the green light to pass, while vehicles traffic light is red   --> nothing happens
+2. press on the switch to request the green light to pass, while vehicles traffic light is green --> vehicles traffic light immediately switches to yellow, then red, and pedestrians traffic light switches to green allowing pedestrains to pass
